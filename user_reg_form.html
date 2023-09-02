@@ -27,13 +27,13 @@
 
     <main>
         <div class="container">
-            <form action="">
-                <input type="text" name="fullName" id="fullName" placeholder="الاسم الكامل" required>
+            <form action="" class="regForm">
+                <input type="text" name="name" id="fullName" placeholder="الاسم الكامل" required>
                 <br>
-                <input type="email" name="userEmail" id="userEmail" placeholder="البريد الإلكتروني" required>
+                <input type="email" name="email" id="userEmail" placeholder="البريد الإلكتروني" required>
                 <br>
                 <label for="birthDate">تاريخ الميلاد</label>
-                <input type="date" name="birthDate" id="birthDate" required>
+                <input type="date" name="date_of_birth" id="birthDate" required>
 
                 <label for="gender">الجنس</label>
                 <div class="gender">
@@ -52,7 +52,7 @@
                 <br>
                 <input type="text" name="major" id="major" placeholder="التخصص" required>
                 <br>
-                <select name="desiredField" id="desiredField" required>
+                <select name="target_field" id="targetField" required>
                     <option value="---">اختر المسار الذي ترغب فيه</option>
                     <option value="SE">Software Engineer (SE)</option>
                     <option value="ML">Machine Learning Engineer (ML)</option>
@@ -60,9 +60,9 @@
                 </select>
                 <br>
                 <label for="gradDate">تاريخ التخرج / المتوقع (اختياري)</label>
-                <input type="date" name="gradDate" id="gradDate">
+                <input type="date" name="graduation_date" id="gradDate">
                 <br>
-                <input type="text" name="yearsOfXP" id="yearsOfXP" placeholder="عدد سنوات الخبرة (اختياري)">
+                <input type="text" name="years_of_experience" id="yearsOfXP" placeholder="عدد سنوات الخبرة (اختياري)">
                 <br>
                 <input type="submit" value="التسجيل">
             </form>
@@ -71,5 +71,5 @@
 
 
 
-    <script src="user_profile-script.js"></script>
+    <script src="user_reg_form-script.js"></script>
 </body>
