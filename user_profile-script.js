@@ -16,43 +16,36 @@ courses.forEach((course, index) => {
 const coursesDescs = document.querySelectorAll('.courseDescription');
 
 coursesDescs.forEach((courseDesc, index) => {
-    if(index % 2 !== 0){
+    if (index % 2 !== 0) {
         courseDesc.style.right = "75px";
     }
-    
+
     else {
         courseDesc.style.left = "75px";
     }
 });
 
-window.onload = () => {
-    const answereQuestionsString = localStorage.getItem("questions");
-    if (answereQuestionsString === null) {
-        alert('حدث خطأ ما في ادخال معلوماتك سوف يتم ارجاعك لصفحة الامتحان القصير')
-        const locationPath = window.location.href.split("/");
-        locationPath.pop();
-        locationPath.push("quiz.html");
-        window.location.href = locationPath.join("/");
-        return;
-    }
+/* Fetching Courses Details from JSON file */
 
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    
-    var requestOptions = {
-        method: 'POST',
-        body: answereQuestionsString,
-        redirect: 'follow',
-        headers: headers
-    };
-    
-    fetch("http://localhost:8000/generate_career_path", requestOptions)
-        .then(response => response.json())
-        .then(data => buildPageFromResponse(data))
-        .catch(error => console.log('error', error));
+const courseName = document.querySelectorAll('.courseName');
+const coursePrice = document.querySelectorAll('.price');
+const courseLink = document.querySelectorAll('.courseLink a');
+const courseDuration = document.querySelectorAll('.duration span');
+const courseProvider = document.querySelectorAll('.provider span');
+const recommendationText = document.querySelector('.recommendationText p');
 
-
-    function buildPageFromResponse(data) {
-        console.log({data});
-    }
-}
+fetch('career-path.json')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        data.Path[0].courses.forEach((course, index) => {
+            courseName[index].innerHTML = course.name;
+            coursePrice[index].innerHTML = course.Price;
+            courseLink[index].setAttribute('href', course.link);
+            courseDuration[index].innerHTML = course.Duration;
+            courseProvider[index].innerHTML = course.Provider;
+        })
+        recommendationText.innerHTML = data.Path[0].additional_info;
+        console.log("I'm here");
+    })
