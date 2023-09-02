@@ -136,7 +136,7 @@ main.style.height = `calc(100vh - ${headerHeight.height}px)`;
             localStorage.setItem("questions", JSON.stringify({"questions": submittedQuestions}));
             const locationPath = window.location.href.split("/");
             locationPath.pop();
-            locationPath.push("course_info.html");
+            locationPath.push("user_profile.html");
             window.location.href = locationPath.join("/");
         }
     }
