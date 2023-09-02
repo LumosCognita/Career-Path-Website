@@ -235,7 +235,7 @@ main .container .timeline {
     justify-content: space-between;
     align-items: center;
     width: 15px;
-    height: 1000px;
+    height: 700px;
     margin: 200px auto 100px auto;
     background: var(--purple-color);
     border-radius: 40px;
@@ -303,6 +303,35 @@ main .container .course .courseDescription {
     }
 }
 
+main .container .course .courseDescription .courseName {
+    margin-bottom: 0;
+}
+
+main .container .course .courseDescription .price {
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: 700;
+    background: #2c3aff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+main .container .course .courseDescription div:not(main .container .course .courseDescription div:last-child) {
+    margin-bottom: 10px;
+}
+
+main .container .course .courseDescription div span {
+    direction: ltr;
+}
+
+main .container .course .courseDescription strong i {
+    margin-left: 5px;
+}
+
+main .container .course .courseDescription .courseLink a {
+    color: var(--green-color);
+}
+
 /* main .container .course .courseDescription::before {
     content: '';
     position: absolute;
@@ -328,4 +357,5 @@ main .container .course .courseDescription {
 .recommendationText p {
     line-height: 30px;
     margin-top: 40px;
+    direction: ltr;
 }
