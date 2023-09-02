@@ -44,10 +44,14 @@ form.addEventListener('submit', (event) => {
     console.log(userData);
 
       
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
     var requestOptions = {
         method: 'POST',
         body: JSON.stringify(userData),
-        redirect: 'follow'
+        redirect: 'follow',
+        headers: headers
     };
       
     fetch("http://localhost:8000/sign_up", requestOptions)
