@@ -11,40 +11,10 @@ main.style.height = `calc(100vh - ${headerHeight.height}px)`;
 
 /* Typewriter Effect */
 
-const typewriters = document.querySelectorAll('.typewriter');
-const delay = 40;
+// const typewriters = document.querySelectorAll('.typewriter');
+// const delay = 40;
 
-typewriters.forEach((typewriter) => {
-    const text = typewriter.textContent.trim();
-    typewriter.textContent = "";
-
-    let i = 0;
-    function typewriterEffect() {
-        if (i < text.length) {
-            typewriter.textContent += text.charAt(i);
-            i++;
-            if (!typewriter.classList.contains('questionText')) {
-                setTimeout(typewriterEffect, 150);
-            }
-
-            else {
-                setTimeout(typewriterEffect, delay);
-            }
-        }
-    }
-
-    typewriterEffect();
-})
-
-
-
-/* Typewriting Improved */
-
-// const typewriterElements = document.querySelectorAll('.typewriter');
-// const delay = 25;
-// const staggerDelay = 1000;
-
-// function typewriting(typewriter) {
+// typewriters.forEach((typewriter) => {
 //     const text = typewriter.textContent.trim();
 //     typewriter.textContent = "";
 
@@ -53,17 +23,17 @@ typewriters.forEach((typewriter) => {
 //         if (i < text.length) {
 //             typewriter.textContent += text.charAt(i);
 //             i++;
-//             setTimeout(typewriterEffect, delay);
+//             if (!typewriter.classList.contains('questionText')) {
+//                 setTimeout(typewriterEffect, 150);
+//             }
+
+//             else {
+//                 setTimeout(typewriterEffect, delay);
+//             }
 //         }
 //     }
 
 //     typewriterEffect();
-// }
-
-// typewriterElements.forEach((typewriter, index) => {
-//     setTimeout(() => {
-//         typewriting(typewriter);
-//     }, index * staggerDelay)
 // })
 
 // =========================================================
@@ -97,9 +67,8 @@ nextBTN.addEventListener('click', () => {
         }
 
         counter++;
+        changeQuestion();
     }
-
-    changeQuestion();
 })
 
 const questionText = document.querySelector('.questionText');
@@ -112,61 +81,92 @@ function typingEffect(typewriter) {
         if (i < typewriter.length) {
             questionText.textContent += typewriter.charAt(i);
             i++;
-            setTimeout(typewriterEffect, 150);
+            setTimeout(typewriterEffect, 50);
         }
     }
 
     typewriterEffect();
 }
 
-function typingEffectAnswers(answerTypewriter) {
-    const answersOptions = document.querySelectorAll('.answersList li');
-    answersOptions.forEach((answer) => {
-        answer.textContent = "";
+function typingEffectAnswers(answersList) {
+    const answerSlots = document.querySelectorAll('.answersList li');
+    let currentAnswerIndex = 0;
+    let currentCharacterIndex = 0;
+
+    answerSlots.forEach((slot) => {
+        slot.textContent = "";
     })
 
-    let i = 0;
-    let letter = 0;
     function typewriterEffect() {
-        if (i < answerTypewriter.length) {
-            if (letter < answerTypewriter[i].length) {
-                answersOptions[i].textContent += answerTypewriter[i].charAt(letter);
-                letter++;
-                setTimeout(typewriterEffect, 150);
+        if (currentAnswerIndex < answersList.length) {
+            const slotText = answerSlots[currentAnswerIndex];
+            const currentAnswer = answersList[currentAnswerIndex];
+            const { label } = currentAnswer;
+
+            if (currentCharacterIndex < label.length) {
+                slotText.textContent += label.charAt(currentCharacterIndex);
+                currentCharacterIndex++;
+                setTimeout(typewriterEffect, 25);
+            } else {
+                currentAnswerIndex++;
+                currentCharacterIndex = 0;
+                setTimeout(typewriterEffect, 1000); // Wait for 1 second before moving to the next answer
             }
         }
-        i++;
     }
 
-    typewriterEffect();
+    typewriterEffect(); // Start the typewriter effect
 }
 
-const questions = [
-    'What\'s your name?',
-    'How old are you?',
-    'Where do you live?'
-];
 
-const questions2 = {
-    'q1': {
-        'qText': 'What is your name',
-        'answers': ['Adam', 'Ali', 'Idrees', 'Rami']
-    },
 
-    'q2': {
-        'qText': 'How are you?',
-        'answers': ['Good', 'Perfect', 'Excellent', 'Relaxed']
-    }
-};
-
-let questionIndex = 0;
+let questionIndex = 1;
 
 function changeQuestion() {
-    if (questionIndex < questions.length) {
-        // questionText.innerHTML = questions[questionIndex];
-        typingEffect(questions2.q1.qText);
-        // typingEffectAnswers(questions2.q1.answers);
-        
-        questionIndex++;
-    }
+    fetch('questions.json')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (questionIndex < data.questions.length) {
+                typingEffect(data.questions[questionIndex].question);
+                typingEffectAnswers(data.questions[questionIndex].options);
+                questionIndex++;
+            }
+        })
 }
+
+function showTheFirstQuestion() {
+    fetch('questions.json')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (questionIndex < data.questions.length) {
+                typingEffect(data.questions[0].question);
+                typingEffectAnswers(data.questions[0].options);
+            }
+            console.log(data.questions[0].options[0].label);
+        })
+}
+
+showTheFirstQuestion();
+
+
+// const questions = [
+//     'What\'s your name?',
+//     'How old are you?',
+//     'Where do you live?'
+// ];
+
+// const questions2 = {
+//     'q1': {
+//         'qText': 'What is your name',
+//         'answers': ['Adam', 'Ali', 'Idrees', 'Rami']
+//     },
+
+//     'q2': {
+//         'qText': 'How are you?',
+//         'answers': ['Good', 'Perfect', 'Excellent', 'Relaxed']
+//     }
+// };
