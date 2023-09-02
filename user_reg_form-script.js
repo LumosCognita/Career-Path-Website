@@ -1,7 +1,5 @@
 const form = document.querySelector('.regForm');
 
-const userData = {};
-
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -15,6 +13,8 @@ form.addEventListener('submit', (event) => {
     const user_graduation_date = document.querySelector('.regForm input[name="graduation_date"]').value;
     const user_years_of_experience = document.querySelector('.regForm input[name="years_of_experience"]').value;
     const submitBTN = document.querySelector('.regForm input[type="submit"]');
+
+    const userData = {};
 
     userData.name = user_fullname;
     userData.email = user_email;
@@ -42,4 +42,22 @@ form.addEventListener('submit', (event) => {
     }
 
     console.log(userData);
+
+      
+    var requestOptions = {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        redirect: 'follow'
+    };
+      
+    fetch("http://localhost:8000/sign_up", requestOptions)
+    .then(() => {
+        alert('تم ارفاق معلوماتك بنجاح, يرجى الان الاجابه على الاسئلة التالية');
+
+        const locationPath = window.location.href.split("/");
+        locationPath.pop();
+        locationPath.push("quiz.html");
+        window.location.href = locationPath.join("/");
+    })
+    .catch(error => console.log('error', error));
 })
